@@ -1,0 +1,322 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API для Telegram бота. Инофрмация о резолюциях в тезисе.",
+    "version": "1.0.0",
+    "description": "API для работы telegram бота (https://t.me/testmarshrutbot).\n\nАвтор: adminEBelyaev"
+  },
+  "servers": [
+    {
+      "url": "https://tezis-repgen.gov74.ru/api/get_resolutions"
+    },
+    {
+      "url": "https://esed.gov74.ru/generator/api/get_resolutions"
+    }
+  ],
+  "tags": [
+    {
+      "name": "executor",
+      "description": "Резолюции исполнителя"
+    },
+    {
+      "name": "author",
+      "description": "Автор резолюции"
+    }
+  ],
+  "paths": {
+    "/executor": {
+      "get": {
+        "tags": [
+          "executor"
+        ],
+        "description": "Получить информацию о резолюциях, где пользователь является исполнителем",
+        "parameters": [
+          {
+            "name": "secret_key",
+            "in": "query",
+            "description": "Секретный ключ (токен) для возможности пользоваться API. Запрашивать у adminEBelyaev",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "secret_key"
+            }
+          },
+          {
+            "name": "login",
+            "in": "query",
+            "description": "Один или несколько логинов пользователей тезиса, разделённых через запятую, по которым получаем информацию где они являются ответственными исполнителями резолюций. Регистр не важен. Пример - 'IPBilanov,EBelyaev,vmamin,NTADAUSH'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "login"
+            }
+          },
+          {
+            "name": "date_start",
+            "in": "query",
+            "description": "Начало периода срока исполнения в формате '2024-12-30'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "date_start"
+            }
+          },
+          {
+            "name": "date_end",
+            "in": "query",
+            "description": "Конец периода срока исполнения в формате '2024-12-31'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "date_end"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Массив JSON с одним или несколькими объектами",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/executor"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/author": {
+      "get": {
+        "tags": [
+          "author"
+        ],
+        "description": "Получить информацию о резолюциях, где пользователь является автором",
+        "parameters": [
+          {
+            "name": "secret_key",
+            "in": "query",
+            "description": "Секретный ключ (токен) для возможности пользоваться API. Запрашивать у adminEBelyaev",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "secret_key"
+            }
+          },
+          {
+            "name": "login",
+            "in": "query",
+            "description": "Один или несколько логинов пользователей тезиса, разделённых через запятую, по которым получаем информацию где они являются авторами резолюций. Регистр не важен. Пример - 'IPBilanov,EBelyaev,vmamin,NTADAUSH'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "login"
+            }
+          },
+          {
+            "name": "date_start",
+            "in": "query",
+            "description": "Начало периода срока исполнения в формате '2024-12-30'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "date_start"
+            }
+          },
+          {
+            "name": "date_end",
+            "in": "query",
+            "description": "Конец периода срока исполнения в формате '2024-12-31'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "date_end"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Массив JSON с одним или несколькими объектами",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/author"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "executor": {
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "type": "string",
+            "example": "3b50f84c-bcfe-b41f-d0e4-95efb440580d",
+            "description": "id документа"
+          },
+          "res_id": {
+            "type": "string",
+            "example": "fd3edf7d-eff2-6f6e-3576-54173ef750ca",
+            "description": "id резолюции"
+          },
+          "doc_text": {
+            "type": "string",
+            "example": "Информация о формах охотхозяйственного реестра за период с 2016 по 2023 год.",
+            "description": "Содержание в карточке документа, вкладки детали"
+          },
+          "doc_reg_no": {
+            "type": "string",
+            "example": "14-150/4484",
+            "description": "рег.номер документа"
+          },
+          "doc_reg_date": {
+            "type": "string",
+            "example": "2023-02-17T00:00:00.000Z",
+            "description": "рег.дата документа в формате '2024-12-31'"
+          },
+          "res_author": {
+            "type": "string",
+            "example": "Пичик М. М.",
+            "description": "автор резолюции"
+          },
+          "date_resolution": {
+            "type": "string",
+            "example": "2023-02-20T00:00:00.000Z",
+            "description": "Дата создания резолюции в формате '2024-12-31'"
+          },
+          "on_control": {
+            "type": "boolean",
+            "example": true,
+            "description": "На контроле или нет"
+          },
+          "res_text": {
+            "type": "string",
+            "example": "Подготовить ответ. Заранее!!! вытащить из разработчика сроки устранения замечаний, в том числе в рамках гарантийных обязательств.  Разобраться, доводились ли до нас замечания после 9.06.2022 в рамках приемки контракта по развитию системы в 2022 году. Если да, то доложить о причинах не устранения.",
+            "description": "Текст резолюции"
+          },
+          "res_executor": {
+            "type": "string",
+            "example": "Ракецкий А. П.",
+            "description": "Ответственный исполнитель"
+          },
+          "res_report": {
+            "type": "string",
+            "example": null,
+            "description": "Отчёт ответственного исполнителя"
+          },
+          "res_report_date_plan": {
+            "type": "string",
+            "example": "2023-03-06T00:00:00.000Z",
+            "description": "Срок исполнения резолюции в формате '2024-12-31' или '2024-12-31 23:59:59'"
+          },
+          "res_report_date_fact": {
+            "type": "string",
+            "example": null,
+            "description": "Дата предоставления отчёта ответственным исполнителем в формате '2024-12-31' или '2024-12-31 23:59:59'"
+          },
+          "link": {
+            "type": "string",
+            "example": "https://esed.gov74.ru/app/open?screen=govLXXIV$CardResolution.edit&item=govLXXIV$CardResolution-fd3edf7d-eff2-6f6e-3576-54173ef750ca&ms=item:govLXXIV$CardResolution-fd3edf7d-eff2-6f6e-3576-54173ef750ca",
+            "description": "Ссылка на резолюцию. Откроет карточку документа с выделенной резолюцией"
+          },
+          "res_executor_login": {
+            "type": "string",
+            "example": "APRaketsky",
+            "description": "Логин ответственного исполнителя"
+          }
+        }
+      },
+      "author": {
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "type": "string",
+            "example": "3b50f84c-bcfe-b41f-d0e4-95efb440580d",
+            "description": "id документа"
+          },
+          "res_id": {
+            "type": "string",
+            "example": "16ef7b2b-1b9c-ad41-08cb-a06db90ec896",
+            "description": "id резолюции"
+          },
+          "doc_text": {
+            "type": "string",
+            "example": "Информация о формах охотхозяйственного реестра за период с 2016 по 2023 год.",
+            "description": "Содержание в карточке документа, вкладки детали"
+          },
+          "doc_reg_no": {
+            "type": "string",
+            "example": "14-150/4484",
+            "description": "рег.номер документа"
+          },
+          "doc_reg_date": {
+            "type": "string",
+            "example": "2023-02-17T00:00:00.000Z",
+            "description": "рег.дата документа в формате '2024-12-31'"
+          },
+          "res_author": {
+            "type": "string",
+            "example": "Ракецкий А. П.",
+            "description": "автор резолюции"
+          },
+          "date_resolution": {
+            "type": "string",
+            "example": "2023-03-01T00:00:00.000Z",
+            "description": "Дата создания резолюции в формате '2024-12-31'"
+          },
+          "on_control": {
+            "type": "boolean",
+            "example": true,
+            "description": "На контроле или нет"
+          },
+          "res_text": {
+            "type": "string",
+            "example": "1. Получить пояснительные ответы на уточняющие вопросы разработчика от ФЗ. 2. Понять, что разработчик сделает в рамках гарантии, а что пойдет в тп и доработки. Получить сроки устранения от разработчика. 2. Дать ответ - доводились ли до нас замечания после 9.06.2022 в рамках приемки контракта по развитию системы в 2022 году. Если да, то доложить о причинах неустранения.",
+            "description": "Текст резолюции"
+          },
+          "res_executor": {
+            "type": "string",
+            "example": "Милюкова Т. Ю.",
+            "description": "Ответственный исполнитель"
+          },
+          "res_report": {
+            "type": "string",
+            "example": "письмо в Минэкологии для уточнения требований на согласовании после регистрации будет добавлено в связанные карточки",
+            "description": "Отчёт ответственного исполнителя"
+          },
+          "res_report_date_plan": {
+            "type": "string",
+            "example": "2023-03-06T00:00:00.000Z",
+            "description": "Срок исполнения резолюции в формате '2024-12-31' или '2024-12-31 23:59:59'"
+          },
+          "res_report_date_fact": {
+            "type": "string",
+            "example": "2023-03-06 09:08:56.902",
+            "description": "Дата предоставления отчёта ответственным исполнителем в формате '2024-12-31' или '2024-12-31 23:59:59'"
+          },
+          "link": {
+            "type": "string",
+            "example": "https://esed.gov74.ru/app/open?screen=govLXXIV$CardResolution.edit&item=govLXXIV$CardResolution-16ef7b2b-1b9c-ad41-08cb-a06db90ec896&ms=item:govLXXIV$CardResolution-16ef7b2b-1b9c-ad41-08cb-a06db90ec896",
+            "description": "Ссылка на резолюцию. Откроет карточку документа с выделенной резолюцией"
+          },
+          "res_author_login": {
+            "type": "string",
+            "example": "APRaketsky",
+            "description": "Логин автора резолюции"
+          }
+        }
+      }
+    }
+  }
+}
